@@ -1,4 +1,4 @@
-import { Exercise, UserProgress, Week, Workout } from '../types';
+import { Exercise, UserProgress, Workout } from '../types';
 import { BLOCKS, DIMANCHE_WORKOUT, MARDI_WORKOUT, VENDREDI_WORKOUT, PROGRAM_INFO } from '../constants';
 
 class WorkoutService {
