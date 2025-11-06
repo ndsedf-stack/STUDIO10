@@ -1,4 +1,4 @@
-import { ProgramData } from '../types';
+import { ProgramData, MuscleGroup } from '../types';
 
 export const programData: ProgramData = {
   blocks: [
