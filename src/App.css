@@ -12,7 +12,7 @@
   --primary: #00d4aa;
   --secondary: #6c5ce7;
   --accent: #ff6b6b;
-  --success: #00d4aa;
+  --success: #10b981;
   --warning: #ffa502;
   
   --text-primary: #ffffff;
@@ -755,7 +755,8 @@ button {
   }
   
   .bottom-nav {
-    display: none; /* Consider alternative navigation for desktop */
+    /* Bottom nav hidden on desktop - navigation via header/sidebar recommended */
+    display: none;
   }
   
   .app-container {
