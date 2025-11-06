@@ -7,15 +7,11 @@ import { DAYS } from './constants';
 function App() {
   const [selectedDay, setSelectedDay] = useState<string>('dimanche');
 
-  const handleWeekChange = (week: number) => {
-    console.log('Week changed to:', week);
-  };
-
   const workout = workoutService.getWorkoutForDay(selectedDay);
 
   return (
     <div className="app">
-      <ControlPanel onWeekChange={handleWeekChange} />
+      <ControlPanel />
       
       <div className="workout-selector">
         <h3>Sélectionnez votre séance</h3>
