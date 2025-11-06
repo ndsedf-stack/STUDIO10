@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Block, Set } from '../types';
 import { IntensificationStep } from './IntensificationStep';
 
+const DROP_SET_WEIGHT_REDUCTION = 0.75; // 25% weight reduction for drop-sets
+
 interface SetsTrackerProps {
   exercise: any;
   onSetComplete: (completed: boolean, setIndex: number, subExoIndex?: number) => void;
@@ -79,7 +81,7 @@ export const SetsTracker: React.FC<SetsTrackerProps> = ({
           description="Baissez de 20-25% et continuez à l'échec."
           actionText="Ajouter la série"
           onAction={() => {
-            const reducedWeight = parseFloat(String(lastSet.weight)) * 0.75;
+            const reducedWeight = parseFloat(String(lastSet.weight)) * DROP_SET_WEIGHT_REDUCTION;
             onAddBonusSet(
               {
                 weight: reducedWeight,
@@ -97,7 +99,7 @@ export const SetsTracker: React.FC<SetsTrackerProps> = ({
     return null;
   };
 
-  const renderSets = (sets: any[], subExoIndex: number = -1) => {
+  const renderSets = (sets: Set[], subExoIndex: number = -1) => {
     return (
       <div className="sets-list">
         {sets.map((set: any, idx: number) => (
