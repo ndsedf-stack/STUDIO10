@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { WorkoutExercise, Block, Set } from '../types';
+import { Block, Set } from '../types';
 import { IntensificationStep } from './IntensificationStep';
+
+const DROP_SET_WEIGHT_REDUCTION = 0.75; // 25% weight reduction for drop-sets
 
 interface SetsTrackerProps {
   exercise: any;
@@ -79,4 +81,90 @@ export const SetsTracker: React.FC<SetsTrackerProps> = ({
           description="Baissez de 20-25% et continuez à l'échec."
           actionText="Ajouter la série"
           onAction={() => {
-            const reducedWeight = parseFloat(String
+            const reducedWeight = parseFloat(String(lastSet.weight)) * DROP_SET_WEIGHT_REDUCTION;
+            onAddBonusSet(
+              {
+                weight: reducedWeight,
+                reps: '',
+                rir: 0
+              },
+              subExoIndex
+            );
+            setIntensificationState({ active: false, step: 0, type: null });
+          }}
+        />
+      );
+    }
+
+    return null;
+  };
+
+  const renderSets = (sets: Set[], subExoIndex: number = -1) => {
+    return (
+      <div className="sets-list">
+        {sets.map((set: any, idx: number) => (
+          <div key={set.id} className={`set-row ${set.isBonus ? 'bonus-set' : ''}`}>
+            <div className="set-checkbox">
+              <input
+                type="checkbox"
+                checked={set.completed}
+                onChange={() => handleCheck(set, idx, subExoIndex)}
+              />
+            </div>
+            <div className="set-number">{set.isBonus ? '🔥' : idx + 1}</div>
+            <div className="set-inputs">
+              <input
+                type="number"
+                placeholder="Poids"
+                value={set.weight}
+                onChange={(e) => onInputChange(e.target.value, 'weight', idx, subExoIndex)}
+                disabled={set.completed}
+              />
+              <input
+                type="number"
+                placeholder="Reps"
+                value={set.reps}
+                onChange={(e) => onInputChange(e.target.value, 'reps', idx, subExoIndex)}
+                disabled={set.completed}
+              />
+              <input
+                type="number"
+                placeholder="RIR"
+                value={set.rir}
+                onChange={(e) => onInputChange(e.target.value, 'rir', idx, subExoIndex)}
+                disabled={set.completed}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderSupersetSets = () => {
+    if (!exercise.exercises) return null;
+
+    return (
+      <div className="superset-container">
+        {exercise.exercises.map((subExo: any, subExoIndex: number) => (
+          <div key={subExo.id} className="superset-exercise">
+            <h3>{subExo.name}</h3>
+            {renderSets(subExo.sets, subExoIndex)}
+            {renderIntensificationGuide(subExo, subExoIndex)}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  if (exercise.type === 'superset') {
+    return renderSupersetSets();
+  }
+
+  return (
+    <div className="sets-tracker">
+      {renderSets(exercise.sets)}
+      {renderIntensificationGuide(exercise)}
+    </div>
+  );
+};
