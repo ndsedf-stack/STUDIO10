@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorkoutExercise } from '../types';
+import { WorkoutExercise, isSuperset } from '../types';
 import { PlusIcon } from './Icons';
 
 interface ExerciseCardProps {
@@ -7,7 +7,7 @@ interface ExerciseCardProps {
 }
 
 export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
-  if (exercise.type === 'superset') {
+  if (isSuperset(exercise)) {
     return (
       <div className="superset-card">
         <div className="superset-badge">SUPERSET</div>

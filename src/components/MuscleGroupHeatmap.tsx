@@ -1,5 +1,5 @@
 import React from 'react';
-import { Workout, MuscleGroup } from '../types';
+import { Workout, MuscleGroup, Exercise, isSuperset } from '../types';
 import { muscleGroups } from '../data/programData';
 
 interface MuscleGroupHeatmapProps {
@@ -18,14 +18,14 @@ export const MuscleGroupHeatmap: React.FC<MuscleGroupHeatmapProps> = ({ workout 
   };
 
   workout.exercises.forEach(exo => {
-    const processExo = (subExo: any) => {
+    const processExo = (subExo: Exercise) => {
       if (subExo.muscles) {
         subExo.muscles.primary.forEach((m: MuscleGroup) => workedMuscles.primary.add(m));
         subExo.muscles.secondary.forEach((m: MuscleGroup) => workedMuscles.secondary.add(m));
       }
     };
 
-    if (exo.type === 'superset') {
+    if (isSuperset(exo)) {
       exo.exercises.forEach(processExo);
     } else {
       processExo(exo);

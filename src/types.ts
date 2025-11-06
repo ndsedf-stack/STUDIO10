@@ -34,6 +34,15 @@ export interface Superset {
 
 export type WorkoutExercise = Exercise | Superset;
 
+// Type guards
+export function isSuperset(exercise: WorkoutExercise): exercise is Superset {
+  return (exercise as Superset).type === 'superset';
+}
+
+export function isExercise(exercise: WorkoutExercise): exercise is Exercise {
+  return !isSuperset(exercise);
+}
+
 export interface Workout {
   name: string;
   exercises: WorkoutExercise[];
@@ -99,7 +108,7 @@ export interface Set {
   isBonus?: boolean;
 }
 
-export interface CompletedExercise extends Exercise {
+export interface CompletedExercise extends Omit<Exercise, 'sets'> {
   sets: Set[];
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorkoutExercise, Block } from '../types';
+import { WorkoutExercise, Block, Exercise, isSuperset } from '../types';
 
 interface TechniqueHighlightProps {
   exercise: WorkoutExercise;
@@ -9,7 +9,7 @@ interface TechniqueHighlightProps {
 export const TechniqueHighlight: React.FC<TechniqueHighlightProps> = ({ exercise, block }) => {
   if (!block) return null;
 
-  const getTechniqueForExo = (exo: any): string | null => {
+  const getTechniqueForExo = (exo: Exercise): string | null => {
     if (!exo.intensification) return null;
     const techName = block.technique.name.toLowerCase();
     if (techName.includes(exo.intensification.replace('-', ''))) {
@@ -20,7 +20,7 @@ export const TechniqueHighlight: React.FC<TechniqueHighlightProps> = ({ exercise
 
   const techniques: string[] = [];
 
-  if (exercise.type === 'superset') {
+  if (isSuperset(exercise)) {
     exercise.exercises.forEach(exo => {
       const tech = getTechniqueForExo(exo);
       if (tech && !techniques.includes(tech)) {
