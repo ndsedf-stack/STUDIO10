@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ControlPanel from './components/ControlPanel';
 import WorkoutDisplay from './components/WorkoutDisplay';
 import workoutService from './services/workoutService';
 import { DAYS } from './constants';
 
 function App() {
-  const [currentWeek, setCurrentWeek] = useState(workoutService.getCurrentWeek());
   const [selectedDay, setSelectedDay] = useState<string>('dimanche');
 
   const handleWeekChange = (week: number) => {
-    setCurrentWeek(week);
+    console.log('Week changed to:', week);
   };
 
   const workout = workoutService.getWorkoutForDay(selectedDay);
